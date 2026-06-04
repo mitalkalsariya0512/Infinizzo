@@ -345,7 +345,7 @@ function StatusBadge({ status }) {
 
 const NAV = [
   { id: "overview", label: "Overview", icon: "◎" },
-  { id: "employees", label: "Employee Performance", icon: "◆" },
+  { id: "employees", label: "Team Performance", icon: "◆" },
   { id: "tasks", label: "Task Management", icon: "▦" },
   { id: "content", label: "Content Production", icon: "▶" },
   { id: "social", label: "Social Media", icon: "◈" },
@@ -384,7 +384,7 @@ export default function App() {
 
   const [months, setMonths] = useState(() => {
     try {
-      const saved = localStorage.getItem('infinizio_months_v2');
+      const saved = localStorage.getItem('INFINIZZO_months_v2');
       if (saved) { const parsed = JSON.parse(saved); if (parsed.length > 0) return parsed; }
     } catch(e) {}
     return DEFAULT_MONTHS;
@@ -392,7 +392,7 @@ export default function App() {
 
   const [activeMonthId, setActiveMonthId] = useState(() => {
     try {
-      const saved = localStorage.getItem('infinizio_active_month');
+      const saved = localStorage.getItem('INFINIZZO_active_month');
       if (saved) return saved;
     } catch(e) {}
     return DEFAULT_MONTHS[DEFAULT_MONTHS.length - 1].id;
@@ -444,7 +444,7 @@ export default function App() {
     const month = months.find(m => m.id === monthId);
     if (!month) return;
     setActiveMonthId(monthId);
-    localStorage.setItem('infinizio_active_month', monthId);
+    localStorage.setItem('INFINIZZO_active_month', monthId);
     setSyncStatus({ loading: true, message: `Loading ${month.label}...`, error: false });
     doFullSync(month).then(success => {
       setSyncStatus({ loading: false, message: success ? `Live — ${month.label}` : "Using saved data", error: !success });
@@ -456,7 +456,7 @@ export default function App() {
     const id = newMonth.label.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '');
     const updated = [...months, { id, label: newMonth.label, sheetId: newMonth.sheetId, tabs: newMonth.tabs }];
     setMonths(updated);
-    localStorage.setItem('infinizio_months_v2', JSON.stringify(updated));
+    localStorage.setItem('INFINIZZO_months_v2', JSON.stringify(updated));
     setNewMonth({ label: "", sheetId: "", tabs: { postTeam:"Daily Report - Post Team", videoTeam:"Daily Report - Video Team", stockData:"Stock", socialMedia:"Social Media Team Report", shootSchedule:"Shoot Schedule", clientReport:"Client Report.", uploadCalendar:"Uploading Calender", contentPlanner:"Content Planner_Post" } });
   };
 
@@ -464,7 +464,7 @@ export default function App() {
     if (months.length <= 1) return;
     const updated = months.filter(m => m.id !== monthId);
     setMonths(updated);
-    localStorage.setItem('infinizio_months_v2', JSON.stringify(updated));
+    localStorage.setItem('INFINIZZO_months_v2', JSON.stringify(updated));
     if (activeMonthId === monthId) switchMonth(updated[0].id);
   };
 
@@ -597,7 +597,7 @@ export default function App() {
           <div style={{padding:'10px 14px',borderTop:`1px solid ${t.cardBorder}`,fontSize:9,color:t.textDim,lineHeight:1.5}}>
             <div style={{fontWeight:600,color:t.textMuted,fontSize:10,marginBottom:2}}>Created by</div>
             <div style={{fontSize:11,fontWeight:700,color:'#DC2626'}}>Mital Kalsariya</div>
-            <div style={{marginTop:2,opacity:0.6}}>INFINIZIO Digital Solutions</div>
+            <div style={{marginTop:2,opacity:0.6}}>INFINIZZO Digital Solutions</div>
           </div>
         )}
         <button onClick={() => setSidebarOpen(!sidebarOpen)} style={{padding:10,borderTop:`1px solid ${t.cardBorder}`,background:'transparent',border:'none',borderTop:`1px solid ${t.cardBorder}`,color:t.textMuted,fontSize:11,cursor:'pointer'}}>
